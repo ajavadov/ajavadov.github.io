@@ -54,45 +54,64 @@
 	<!-- ===== Subtle collaboration note ===== -->
 <style>
   .aj-note {
+    /* inherit the page's text color */
+    color: inherit;
     max-width: 800px;
     margin: 18px auto 0;
     padding: 14px 16px;
+    border-radius: 12px;
+
+    /* very light surface so it works on both light/dark pages */
+    background: rgba(0,0,0,.02);
     border: 1px solid rgba(0,0,0,.12);
-    border-radius: 10px;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,.04);
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     .aj-note {
-      background: #0b0f18;
-      border-color: rgba(255,255,255,.14);
-      box-shadow: none;
+      background: rgba(255,255,255,.03);
+      border-color: rgba(255,255,255,.16);
     }
   }
+
   .aj-note h3 {
-    margin: 0 0 6px;
-    font-weight: 650;
+    margin: 0 0 8px;
+    font-weight: 700;
     font-size: 18px;
     line-height: 1.35;
+    color: inherit; /* ensure strong contrast on dark */
   }
-  .aj-note p { margin: 6px 0 10px; color: #475569; font-size: 14.5px; }
-  @media (prefers-color-scheme: dark) { .aj-note p { color: #cbd5e1; } }
-  .aj-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 10px; padding: 0; list-style: none; }
+
+  .aj-note p { margin: 6px 0 8px; opacity: .95; }
+  .aj-note small { opacity: .8; }
+
+  .aj-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin: 6px 0 12px; padding: 0; list-style: none;
+  }
   .aj-tags li {
     font-size: 12.5px; font-weight: 600;
-    border: 1px solid rgba(0,0,0,.10);
-    padding: 6px 8px; border-radius: 8px; background: #f8fafc;
+    padding: 6px 9px; border-radius: 9px;
+    border: 1px solid rgba(0,0,0,.12);
+    background: rgba(0,0,0,.04);
+    color: inherit;
   }
   @media (prefers-color-scheme: dark) {
-    .aj-tags li { background: #111827; border-color: rgba(255,255,255,.12); }
+    .aj-tags li {
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+    }
   }
+
   .aj-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .aj-actions a {
-    text-decoration: none; font-weight: 600; font-size: 13.5px;
+    text-decoration: none;
+    font-weight: 650; font-size: 13.5px;
     padding: 8px 10px; border-radius: 8px;
-    border: 1px solid rgba(0,0,0,.12); background: transparent; color: inherit;
+    color: inherit;
+    border: 1px solid currentColor; /* keeps button visible on any bg */
+    background: transparent;
+    opacity: .95;
   }
+  .aj-actions a:hover { opacity: 1; }
   .aj-hint { font-size: 12.5px; opacity: .8; }
 </style>
 
@@ -110,6 +129,7 @@
     <span class="aj-hint"><code>ajavadov [at] ethz . ch</code></span>
   </div>
 </div>
+
 <!-- ===== End subtle note ===== -->
 
 	  <div>
