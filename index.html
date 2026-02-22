@@ -524,6 +524,27 @@ html {
       </tr>
     </table>
 		</main>
-	  
+	<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const sections = document.querySelectorAll("main section[id]");
+  const navLinks = document.querySelectorAll(".site-nav a");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach((link) => {
+          const isActive = link.getAttribute("href") === "#" + id;
+          link.classList.toggle("active", isActive);
+        });
+      }
+    });
+  }, {
+    threshold: 0.4
+  });
+
+  sections.forEach((section) => observer.observe(section));
+});
+</script> 
   </body>
 </html>
