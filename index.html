@@ -74,13 +74,41 @@ html {
   opacity: 1;
   border-bottom-color: #000;
 }
+/* Fixed header (you can keep your existing styles and add these lines) */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  z-index: 1000;
 
-/* Offset main content so it doesn't hide behind fixed header */
-#main-content {
-  padding-top: 60px; /* adjust if header height changes */
+  /* Animation for sliding in/out */
+  transform: translateY(0);
+  transition: transform 0.25s ease-out, opacity 0.25s ease-out;
 }
-main section[id] {
-  scroll-margin-top: 80px;  /* adjust to your header height */
+
+/* When hidden, slide it out of view */
+.site-header--hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+/* Ensure visible state */
+.site-header--visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Offset content so it's not covered when header is visible */
+#main-content {
+  padding-top: 60px; /* adjust if your header is taller/shorter */
+}
+
+/* (optional but still nice) smooth anchor scrolling */
+html {
+  scroll-behavior: smooth;
 }
 </style>
 
@@ -88,16 +116,16 @@ main section[id] {
 
   <body>
       <!-- Top navigation -->
-  <header class="site-header">
-    <nav class="site-nav">
-      <a href="#about">About</a>
-      <a href="#news">News</a>
-      <a href="#research">Research</a>
-      <a href="#projects">Projects</a>
-      <a href="#notes">Notes</a>
-      <a href="#map">Map</a>
-    </nav>
-  </header>
+<header class="site-header site-header--visible">
+  <nav class="site-nav">
+    <a href="#about">About</a>
+    <a href="#news">News</a>
+    <a href="#research">Research</a>
+    <a href="#projects">Projects</a>
+    <a href="#notes">Notes</a>
+    <a href="#map">Map</a>
+  </nav>
+</header>
 	    <main id="main-content">
 <section id="about">
 	  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
@@ -527,27 +555,69 @@ main section[id] {
       </tr>
     </table>
 		</main>
-	<script>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
-  const sections = document.querySelectorAll("main section[id]");
-  const navLinks = document.querySelectorAll(".site-nav a");
+  const header = document.querySelector(".site-header");
+  if (!header) return;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        navLinks.forEach((link) => {
-          const isActive = link.getAttribute("href") === "#" + id;
-          link.classList.toggle("active", isActive);
-        });
+  const TOP_STICKY_SCROLL = 10;   // always show when at the very top
+  const ACTIVATION_ZONE = 80;     // px from top of viewport where mouse reveals navbar
+  const HIDE_DELAY = 1200;        // ms before auto-hiding after mouse leaves the top zone
+
+  let hideTimeout = null;
+
+  function showHeader() {
+    header.classList.add("site-header--visible");
+    header.classList.remove("site-header--hidden");
+  }
+
+  function hideHeader() {
+    // only hide if not at the very top
+    if (window.scrollY > TOP_STICKY_SCROLL) {
+      header.classList.add("site-header--hidden");
+      header.classList.remove("site-header--visible");
+    }
+  }
+
+  // Always show header when at/near top; hide when scrolling down away from top
+  window.addEventListener("scroll", function () {
+    if (window.scrollY <= TOP_STICKY_SCROLL) {
+      // close to top: keep header visible
+      showHeader();
+      if (hideTimeout) clearTimeout(hideTimeout);
+    } else {
+      // scrolled down: hide if cursor not on header
+      if (!header.matches(":hover")) {
+        hideHeader();
       }
-    });
-  }, {
-    threshold: 0.4
+    }
   });
 
-  sections.forEach((section) => observer.observe(section));
+  // Reveal header when mouse moves near the top of the viewport
+  document.addEventListener("mousemove", function (e) {
+    // Cursor in activation zone from top of viewport
+    if (e.clientY <= ACTIVATION_ZONE) {
+      showHeader();
+
+      // Start or reset a timer to hide again after delay,
+      // but only if we're scrolled down and not hovering header
+      if (hideTimeout) clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(function () {
+        if (window.scrollY > TOP_STICKY_SCROLL && !header.matches(":hover")) {
+          hideHeader();
+        }
+      }, HIDE_DELAY);
+    }
+  });
+
+  // If the user leaves the header with the mouse, schedule a hide
+  header.addEventListener("mouseleave", function () {
+    if (window.scrollY > TOP_STICKY_SCROLL) {
+      if (hideTimeout) clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(hideHeader, HIDE_DELAY);
+    }
+  });
 });
-</script> 
+</script>
   </body>
 </html>
