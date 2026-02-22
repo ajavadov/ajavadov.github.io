@@ -12,7 +12,74 @@
 <link 
   href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
   rel="stylesheet"  type='text/css'>
+<style>
+  .aj-section { margin: 22px 0 10px; }
+  .aj-section h3 {
+    margin: 0 0 10px;
+    font-size: 18px; font-weight: 700;
+    border-bottom: 1px solid currentColor; /* single thin rule */
+    padding-bottom: 6px;
+  }
+  .aj-tags { display:flex; gap:14px; flex-wrap:wrap; margin: 8px 0 10px; padding:0; list-style:none; }
+  .aj-tags li { font-weight:600; font-size:13px; }
+  .aj-actions a { text-decoration: underline; font-weight:600; }
+  .aj-hint { font-size:12.5px; opacity:.8; margin-left:.5rem; }
 
+	/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Fixed header */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  z-index: 1000;
+}
+
+/* Nav content centered with your existing max-width */
+.site-nav {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0.6rem 1.2rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+/* Nav links */
+.site-nav a {
+  text-decoration: none;
+  color: #333;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+  opacity: 0.8;
+}
+
+.site-nav a:hover {
+  opacity: 1;
+  border-bottom-color: #555;
+}
+
+/* Active link for current section */
+.site-nav a.active {
+  color: #000;
+  opacity: 1;
+  border-bottom-color: #000;
+}
+
+/* Offset main content so it doesn't hide behind fixed header */
+#main-content {
+  padding-top: 60px; /* adjust if header height changes */
+}
+</style>
 
   </head>
 
@@ -51,19 +118,7 @@
             </tr>
           </tbody>
 	  </table>
-<style>
-  .aj-section { margin: 22px 0 10px; }
-  .aj-section h3 {
-    margin: 0 0 10px;
-    font-size: 18px; font-weight: 700;
-    border-bottom: 1px solid currentColor; /* single thin rule */
-    padding-bottom: 6px;
-  }
-  .aj-tags { display:flex; gap:14px; flex-wrap:wrap; margin: 8px 0 10px; padding:0; list-style:none; }
-  .aj-tags li { font-weight:600; font-size:13px; }
-  .aj-actions a { text-decoration: underline; font-weight:600; }
-  .aj-hint { font-size:12.5px; opacity:.8; margin-left:.5rem; }
-</style>
+
 <div class="aj-section">
   <h3>Interested in a Master’s thesis or collaboration?</h3>
   <p>Topics of interest:</p>
