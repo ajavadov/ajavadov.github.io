@@ -131,6 +131,14 @@ h2 {
   margin-bottom: 1.8rem;
 }
 
+.section-note {
+  color: #777;
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-top: -1.2rem;
+  margin-bottom: 1.8rem;
+}
+
 /* ===== Profile grid ===== */
 .profile-grid {
   display: flex;
